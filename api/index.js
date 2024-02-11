@@ -5,9 +5,9 @@ import connect from "./db.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import Auth from "./routes/Auth.route.js";
-
+import path from "path";
 dotenv.config();
-
+const __dirname = path.resolve();
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -16,7 +16,10 @@ const port = process.env.PORT || 3000;
 
 // routes
 app.use("/api/auth", Auth);
-
+app.use(express.static(path.join(__dirname, "/client/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 const start = async () => {
   try {
     await connect();
