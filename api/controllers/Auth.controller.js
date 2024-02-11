@@ -67,6 +67,7 @@ export const update = async (req, res) => {
 };
 
 // Get marks for a user
+
 export const get = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -79,6 +80,7 @@ export const get = async (req, res) => {
 
     return res.status(200).json({ marks: user.marks });
   } catch (error) {
+    console.log(error);
     console.error("Error getting marks:", error);
     return res.status(500).json({ error: "Internal server error" });
   }

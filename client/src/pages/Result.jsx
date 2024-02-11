@@ -9,17 +9,25 @@ export default function Result() {
   const { answers } = useSelector((state) => state.quiz);
   const { currentUser } = useSelector((state) => state.user);
 
-  const userId = currentUser._id; // Replace "yourUserId" with the actual user ID
-  console.log(userId);
+  const userId = currentUser._id;
+
   useEffect(() => {
-    // Fetch user's marks from the server
-    fetch(`/api/auth/users/${userId}/marks`)
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchUserMarks = async () => {
+      try {
+        const response = await fetch(`/api/auth/users/${userId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch user marks");
+        }
+        const data = await response.json();
         setScore(data.marks);
         setLoading(false);
-      })
-      .catch((error) => console.error("Error fetching user's marks:", error));
+      } catch (error) {
+        console.error("Error fetching user's marks:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchUserMarks();
   }, [userId]);
 
   return (

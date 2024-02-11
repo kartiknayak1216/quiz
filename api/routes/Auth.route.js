@@ -11,6 +11,6 @@ const router = express.Router();
 router.post("/google", google);
 router.post("/signout", signOut);
 router.put("/users/:userId/marks", update);
-router.get("/users/:userId/marks", get);
+router.get("/users/:userId", get);
 
 export default router;
